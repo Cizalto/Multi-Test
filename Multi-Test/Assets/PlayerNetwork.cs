@@ -28,10 +28,16 @@ public class PlayerNetwork : NetworkBehaviour
         transform.position += moveDir * moveSpeed * Time.deltaTime;
 
         //Shoot
-        if (Input.GetKeyDown(KeyCode.Space)) Shoot();
+        if (Input.GetKeyDown(KeyCode.Space)) ShootServerRpc();
     }
 
-    void Shoot() {
+    [ServerRpc]
+    void ShootServerRpc() {
+        ShootClientRpc();
+    }
+
+    [ClientRpc]
+    void ShootClientRpc() {
         Instantiate(projectilePrefab, transform.position, Quaternion.identity);
     }
 }
